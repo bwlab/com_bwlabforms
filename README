@@ -1,0 +1,28 @@
+# BWLabForms, create forms easily and powerfully on Joomla #
+
+BWLabForms ia a clone of CKForms of Cookex Agency (http://ckforms.cookex.eu) and reborn as native component for Joomla! 2.5
+
+BWLabForms is a Joomla 2.5 native component to generate Forms with fields without any development knowledge. 
+BWLabForms can save data in Database and export them to CSV format. Fields can be validated as text, number, date and email. A File upload field is now available. 
+Forms created can be backup and restored with one clic. 
+An HTML Editor is available and a Captcha code can be used to secure the forms. 
+A plug-in and a module are available to display forms. 
+The layout can be customized with CSS, custom text inserted between fields. 
+Data saved can be displayed in the Front-end interface. 
+
+Features:
+1	field validation (size, mandatory, number, date, email)
+2	save user data
+3	backup/restore forms and data
+4	file upload
+5	HTML editor
+6	captcha code
+7	email confirmation
+8	plug-in to display forms in articles
+9	module to display forms
+10	layout to display data saved in Front-end
+11	multiple select in select Field
+12	frontend and Backend translations
+13	custom texte associated to fields
+14	css layout
+15	custom CSS for labels and fields
