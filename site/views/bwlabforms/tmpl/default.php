@@ -18,6 +18,8 @@
 		if ($field->custominfo != "") $custominfo = true;
 		if ($field->typefield == 'textarea' && $field->mandatory == '1' && $field->t_HTMLEditor == '1') $textareaRequired = true;
 	}
+        
+        echo $this->myform->getInput();
 	
 ?>
 

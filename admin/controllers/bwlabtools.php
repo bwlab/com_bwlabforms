@@ -414,8 +414,9 @@ class BWLabFormsControllerCktools extends JController
 									if ($field->name == $key)
 									{
 										$query = "ALTER TABLE ".$dba->getPrefix()."bwlabforms_".$row->id." CHANGE ".$field->name." F".$field->id . " TEXT NULL DEFAULT NULL"; 
+                                                                                $dba->setQuery($query);
 										
-										if (!$dba->Execute($query)) 
+										if (!$dba->query()) 
 										{
 											echo JText::_( 'Problem with' )." (".$query.")";
 											echo $dba->getErrorMsg();
