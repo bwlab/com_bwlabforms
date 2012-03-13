@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: default.xml 8178 05/05/2008 pierre revest $ -->
+<metadata>
+    <layout title="BWLabForms: add form">
+        <message>
+			<![CDATA[COM_BWLABFORMS_DISPLAY_FORMS]]>
+        </message>
+    </layout>
+    <fields name="request">
+        <fieldset name="request">
+          <field name="id" type="text"
+				description="JGLOBAL_FIELD_CATEGORIES_CHOOSE_CATEGORY_DESC"
+				label="JGLOBAL_FIELD_CATEGORIES_CHOOSE_CATEGORY_LABEL"
+				required="true"
+			/>
+        </fieldset>
+    </fields>
+</metadata>

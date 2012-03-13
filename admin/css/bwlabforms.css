@@ -1,0 +1,105 @@
+.cktooltip {
+	background-color:#FFFF99;
+	margin-left:-10px;
+	margin-right:-10px;
+	padding: 5px;
+}
+
+#cktooltip {
+	position: absolute;
+	z-index: 3000;
+	border: 1px solid #111;
+	background-color: #eee;
+	padding: 3px;
+	opacity: 0.85;
+	font-size:11px;
+	color:#333333;
+}
+
+#cktooltip h3 {
+	font-size:12px !important;
+}
+
+#cktooltip h3, #cktooltip div { margin: 0; }
+
+.ckhelptd {
+	margin: 0px;
+	padding: 0px;
+	list-style-image:url(../images/help.png);
+	padding-left: 20px;
+	list-style-position:outside;
+}
+
+.ckhelptd li {
+	padding-left: 5px;
+	margin-left: 10px;
+	margin-bottom: 10px;
+}
+
+.txtred {
+	color:#FF0000;
+}
+
+.txtgreen {
+	color: #00CC00;
+}
+
+.text_area, .admintable, .cktdfield {
+	width: 99%;
+}
+
+.normalField {
+	width: 200px;
+}
+
+.field100 {
+	width: 100px;
+	//display: table-row;
+}
+
+.field300 {
+	width: 350px;
+}
+
+.noborder {
+	border: none !important;
+}
+
+.labelwidth {
+	min-width: 100px !important;
+}
+
+.bwlabformbottomborder {
+	padding-top: 5px;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #CCCCCC;
+}
+
+.bwlabformbottom {
+	text-align: center;
+	margin-top: 5px;
+	color: #999;
+}
+
+.ckadmintable td.key {
+	width: 15% !important;
+}
+
+.ckadmintable input.longfield {
+	width: 95%;
+}
+
+.ckadmintable td.value {
+	width: 85%;
+}
+
+#ckfilter {
+	margin-bottom: 10px;
+}
+
+#ckfilter img{
+	vertical-align:middle;
+}
+
+.icon-32-export  { background-image: url(../images/icon-32-export.png); }

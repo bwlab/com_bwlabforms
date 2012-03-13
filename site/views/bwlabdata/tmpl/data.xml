@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: default.xml 8178 05/05/2008 pierre revest $ -->
+<metadata>
+	<layout title="Standard data CKForms CSS Layout">
+		<message>
+			<![CDATA[Display data saved with forms]]>
+		</message>
+	</layout>
+	<state>
+		<name>Standard data CKForms CSS Layout</name>
+		<description>Display data forms saved with CKforms component</description>
+		<url addpath="/administrator/components/com_bwlabforms/elements">
+			<param name="id" type="bwlabprofiles" default="" label="Select data display profile" description="The data display profile" />
+		</url>
+		<params>
+			<param name="show_columnheader" type="radio" default="1" label="Column Headers" description="Show/Hide the Column Headers">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="show_tableborder" type="radio" default="1" label="Table Borders" description="Show/Hide the Table Borders">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+		</params>
+	</state>
+</metadata>

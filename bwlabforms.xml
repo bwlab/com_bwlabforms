@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="2.5.0" method="upgrade">
+	<name>BWLab Forms</name>
+	<!-- The following elements are optional and free of formatting conttraints -->
+	<creationDate>March 2012</creationDate>
+	<author>BWLab, laboratorio web per il business</author>
+	<authorEmail>info@bwlab.it</authorEmail>
+	<authorUrl>http://www.bwlab.it</authorUrl>
+	<copyright>Copyright Info</copyright>
+	<license>...</license>
+	<!--  The version string is recorded in the components table -->
+	<version>1.0</version>
+	<!-- The description is optional and defaults to the name -->
+	<description>BWLab Forms is a forms generator without any programmation. With data saved in database</description>
+	
+	<!-- Runs on update; New in 2.5 -->
+	<!-- update> 
+		<schemas>
+			<schemapath type="mysql">sql/updates/mysql</schemapath>
+		</schemas>
+	</update -->
+
+	<install>
+		<sql>
+			<file charset="utf8" driver="mysql">sql/install.utf8.sql</file>
+		</sql>
+	</install>
+	<uninstall>
+		<sql>
+			<file charset="utf8" driver="mysql">sql/uninstall.utf8.sql</file>
+		</sql>
+	</uninstall>
+	
+	<installfile>install.bwlabforms.php</installfile>
+	<uninstallfile>uninstall.bwlabforms.php</uninstallfile>
+
+	<files folder="site">
+		<filename>index.html</filename>
+		<filename>bwlabforms.php</filename>
+		<filename>controller.php</filename>
+		<folder>captcha</folder>
+		<folder>css</folder>
+		<folder>img</folder>
+		<folder>js</folder>
+		<folder>models</folder>
+		<folder>views</folder>
+		<folder>controllers</folder>
+	</files>
+	
+	<administration>
+		<menu>BWLab Forms</menu>
+		
+		<files folder="admin">
+			<filename>index.html</filename>
+			<filename>bwlabforms.php</filename>
+			<filename>controller.php</filename>
+			<filename>controllers/index.html</filename>
+			<folder>css</folder>
+			<folder>sql</folder>			
+			<folder>elements</folder>
+			<folder>images</folder>
+			<folder>js</folder>
+			<folder>models</folder>
+			<folder>tables</folder>
+			<folder>views</folder>
+		</files>
+	</administration>
+</extension>

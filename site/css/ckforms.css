@@ -1,0 +1,150 @@
+#bwlabformcontainer {
+	width: 100%;
+}
+
+.ck_mandatory {
+	color:#FF0000;
+	padding: 0px;
+	font-size:0.83em;
+	font-weight: bold;
+}
+
+.bwlabform_tooltip, .bwlabform_tooltipcss {
+	margin-top: 13px;
+	margin-left: 5px;
+}
+
+.bwlabform {
+	margin-top: 10px;
+}
+
+.bwlabform div.error {
+	display: none;
+}
+
+.bwlabform div.fc-error {
+	margin-left: 20%;
+	border: none;
+	background:none;
+	padding: 0px;
+}
+
+.bwlabform div.fc-error p {
+	margin: 0px;
+	padding: 0px;
+	color:#F00 !important;
+}
+
+.bwlabform input { 
+ 	border: 1px solid #999;
+	padding: 2px;
+}
+
+.bwlabform input:focus { 
+ 	border: 1px dotted #999;
+}
+
+.bwlabform input.error {
+	border: 1px dotted #FF0000 !important;
+}
+.bwlabform textarea.error { border: 1px dotted red; }
+
+#ckpoweredby {
+	text-align:center !important;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#ckpoweredby a {color:#666666;}
+
+.captchaCont {
+	margin-top: 10px;
+}
+
+.ckBtnCon {
+	text-align: center !important;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+/* CSS layout */
+
+.ckCSSlabel {
+	display: block;
+	float: left;
+	margin-top: 10px;
+	width: 20%;
+	font-size:1em;
+}
+
+.ckCSSinput {
+	width: 76%;
+	margin-top: 10px;
+	background:none;
+}
+
+.ckCSSinput input {
+	background:none;
+}
+
+.ckCSSinputnowidth {
+	display: block;
+	float: left;
+	margin-top: 10px;
+}
+
+.ckCSSTip {
+	background-image: url(../img/info-bck.png);
+	background-repeat:no-repeat;
+	background-position:right;
+}
+
+.ckCSSclear {
+	margin: 0px;
+	padding: Opx;
+	clear: both;
+}
+
+.ckCSSFloatLeft {
+	float: left;
+}
+
+.ckCSSbot10 {margin-bottom: 10px;}
+.ckCSSbot5 {margin-bottom: 5px;}
+.ckCSStop10 {margin-top: 10px;}
+
+.ckCSScenter {
+	text-align:center !important;
+	margin-top: 10px !important;
+}
+
+.ckCustomText {
+	margin-top: 10px;
+}
+
+.ckNoBorder {
+	visibility:hidden;
+}
+
+.ckpagination {
+	text-align:center !important;
+	margin-bottom: 15px;
+}
+
+.ckdatatable {
+	margin-top: 20px;
+	margin-bottom: 10px;
+	width: 100%;
+	border-collapse:collapse;
+}
+
+.ckdatatableborder td {
+	border : 1px solid #ccc;
+}
+
+.ckfrontlabel {
+	height: 30px;
+	padding-right: 20px;
+	font-weight: bold;
+	color:#666;
+}

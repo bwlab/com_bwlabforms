@@ -1,0 +1,48 @@
+
+.mootabs_title {
+
+	list-style-image: none;
+	list-style-type: none;
+	margin: 0px;
+	padding-left: 5px;
+}
+
+.mootabs_title li {
+	float: left;
+	margin: 0px;
+	display: block;
+}
+.mootabs_title a {
+	background-color: #ddd;
+	color: #000;
+	margin-right: 3px;
+	padding: 4px 10px 2px 10px;
+	text-decoration: none;
+	border-top: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	border-left: 1px solid #ddd;	
+	display: block;
+
+}
+
+.mootabs_title a.active {
+	background-color: #aaa;
+	color: #fff;
+	z-index: 100;
+	border-top: 1px solid #aaa;
+	border-right: 1px solid #aaa;
+	border-left: 1px solid #aaa;	
+	border-bottom: 1px solid #aaa;
+}
+
+.mootabs_panel {
+	display: none;
+	clear: both;
+	border-top: 1px solid #aaa;
+	margin-left: 2px;
+	padding-top: 8px;
+}
+
+.mootabs_panel.active {
+	display: block;
+}

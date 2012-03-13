@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: default.xml 8178 05/05/2008 pierre revest $ -->
+<metadata>
+	<layout title="Standard detail data CKForms CSS Layout" hidden="true"> 
+		<message>
+			<![CDATA[Display data detail saved with forms]]>
+		</message>
+	</layout>
+</metadata>

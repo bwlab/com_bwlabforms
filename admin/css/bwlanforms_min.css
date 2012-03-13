@@ -1,0 +1,12 @@
+.bwlabformbottomborder {
+	padding-top: 5px;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #CCCCCC;
+}
+
+.bwlabformbottom {
+	text-align: center;
+	margin-top: 5px;
+	color: #999;
+}
