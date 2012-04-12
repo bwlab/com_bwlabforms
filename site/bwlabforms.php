@@ -10,10 +10,10 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-
 // Require the base controller
-require_once (JPATH_COMPONENT.DS.'controller.php');
+set_include_path(get_include_path().PATH_SEPARATOR.JPATH_LIBRARIES.'/ZendFramework');
 
+require_once (JPATH_COMPONENT.DS.'controller.php');
 // Require specific controller if requested
 if($controller = JRequest::getCmd('controller')) {
 	require_once (JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php');
