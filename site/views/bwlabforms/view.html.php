@@ -19,59 +19,57 @@ jimport('ZendFramework.Zend.Loader');
  */
 class BWLabFormsViewBWLabForms extends JView {
 
+    public function __construct($config = array()) {
+
+        parent::__construct($config);
+
+        Zend_Loader::loadClass('Zend_Validate_Interface');
+        Zend_Loader::loadClass('Zend_Form');
+        Zend_Loader::loadClass('Zend_View');
+    }
+
     function display($tpl = null) {
 
         $mainframe = JFactory::getApplication();
 
         $bwlabforms = & $this->get('Data');
 
-        $post = JRequest::get('post', JREQUEST_ALLOWHTML);
+        if ($bwlabforms->published != '1')
+            return;
 
-        Zend_Loader::loadClass('Zend_Validate_Interface');
-        Zend_Loader::loadClass('Zend_Form');
-        Zend_Loader::loadClass('Zend_View');
+        $action = "index.php?option=com_bwlabforms&view=bwlabforms&task=send&id=" . $bwlabforms->id;
 
-        $form = new Zend_Form();
-        $form->setView(new Zend_View()); //vedi http://zend-framework-community.634137.n4.nabble.com/Form-Without-View-td651297.html
-        $form->render();
-        $form->setAction('index.php');
-        $form->setMethod('POST');
-        $form->setElementDecorators(array('ViewHelper')); //opzionale
-        $params = & $mainframe->getParams('com_content');
+        //$post = JRequest::get('post', JREQUEST_ALLOWHTML);
 
+        $form = $this->getForm($action);
 
-        $nbFields = count($this->bwlabforms->fields);
-
-        JFormHelper::loadFieldClass('text');
-
-        
-        
+        /**
+         * form elements creation 
+         */
         foreach ($bwlabforms->fields as $field) {
-            
-            switch ($field->typefield) {
-                case 'radiobutton':
-                    $type = 'radio';
-                    break;
-                default :
-                    $type = $field->typefield;
-                    break;
-            }
-            
+
+            $type = $this->getFieldType($field);
+
             $form->addElement($type, $field->name, array('label' => $field->label));
+
             $form->getElement($field->name)
                     ->addDecorator(array('data' => 'HtmlTag'), array('tag' => 'div', 'class' => 'inputdiv'))
                     ->addDecorator('Label');
-                    //->addDecorator(array('labelDivClose' => 'HtmlTag'), array('tag' => 'div', 'class' => 'labeldiv', 'placement' => 'prepend', 'openOnly' => true));
-            
+            //->addDecorator(array('labelDivClose' => 'HtmlTag'), array('tag' => 'div', 'class' => 'labeldiv', 'placement' => 'prepend', 'openOnly' => true));
+
+            $form->getElement($field->name)->setValue(
+                    $this->getDefaultValue($field)
+            );
             switch ($type) {
+
                 case 'radio':
                 case 'select':
-                    $form->getElement($field->name)
-                        ->addMultiOptions(array(
-                    'male' => 'Male',
-                    'female' => 'Female' 
-                        ));
-
+                case 'multiselect':
+                    $this->setOptions($field, $form->getElement($field->name));
+                    break;
+                case 'checkbox':
+                    if ($field->t_checkedCB)
+                        $form->getElement($field->name)->setAttrib('checked', 'checked');
                     break;
                 case 'hidden':
                 case 'button':
@@ -80,21 +78,124 @@ class BWLabFormsViewBWLabForms extends JView {
                 default:
                     break;
             }
+            $form->getElement($field->name);
         }
 
-
-        $formLink = "index.php?option=com_bwlabforms&view=bwlabforms&task=send&id=" . $bwlabforms->id;
-
-        $this->assignRef('post', $post);
-        $this->assignRef('params', $params);
-        $this->assignRef('bwlabforms', $bwlabforms);
-        $this->assignRef('formLink', $formLink);
-        $this->assignRef('myform', $form);
+        $this->assignRef('params', $mainframe->getParams('com_content'));
+        $this->assignRef('bwlabforms', $form);
 
         $document = & JFactory::getDocument();
-
 
         parent::display($tpl);
     }
 
+    /**
+     * mapping into zend_form fields
+     * @param type $field
+     * @return type 
+     */
+    private function getFieldType($field) {
+
+        switch ($field->typefield) {
+            case 'radiobutton':
+                $type = 'radio';
+                break;
+            case 'select':
+                $type = $field->t_multipleS ? 'multiselect' : 'select';
+                break;
+            case 'button':
+                $type = 'submit';
+                break;
+            default :
+                $type = $field->typefield;
+                break;
+        }
+
+        return $type;
+    }
+
+    /**
+     * explode options for select and radiobutton
+     * @param type $field
+     * @param type $element 
+     */
+    private function setOptions($field, $element) {
+
+        $options = array();
+
+        //explode radiobutton and select
+        if ($field->t_displayRB || $field->t_listHS) {
+
+            if ($field->t_displayRB)
+                $opts = explode("[-]", $field->t_listHRB);
+
+            if ($field->t_listHS)
+                $opts = explode("[-]", $field->t_listHS);
+
+            foreach ($opts as $opt) {
+
+                $vals_opt = explode("==", $opt);
+
+                $key_and_val = explode("||", $vals_opt[1]);
+
+                if (strpos($key_and_val[1], ' [default]')) {
+
+                    $key_and_val[1] = str_replace(' [default]', '', $key_and_val[1]);
+
+                    $element->setValue($key_and_val[0]);
+                }
+
+                $element->addMultiOption(
+                        $key_and_val[0], $key_and_val[1]
+                );
+            }
+        }
+
+
+        $element->addMultiOptions($options);
+    }
+
+    /**
+     * get zend_form instance
+     * @return \Zend_Form 
+     */
+    public function getForm($action) {
+
+        $form = new Zend_Form();
+
+        $form->setAction($action);
+
+        $form->setMethod('POST');
+
+        $form->setView(new Zend_View()); //vedi http://zend-framework-community.634137.n4.nabble.com/Form-Without-View-td651297.html
+
+        $form->render();
+
+        $form->setElementDecorators(array('ViewHelper')); //opzionale
+
+        return $form;
+    }
+
+    private function getDefaultValue($field) {
+
+        if ($field->t_initvalueT) {
+            return $field->t_initvalueT;
+        }
+
+        if ($field->t_initvalueTA) {
+            return $field->t_initvalueTA;
+        }
+
+        if ($field->t_initvalueH) {
+            return $field->t_initvalueH;
+        }
+
+        if ($field->t_initvalueCB) {
+            return $field->t_initvalueCB;
+        }
+
+        return '';
+    }
+
 }
+
