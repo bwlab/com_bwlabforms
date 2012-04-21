@@ -21,10 +21,9 @@ JHtml::_('behavior.tooltip');
         }
     }
 </script>
-<?php //echo $this->loadTemplate('navigation');  ?>
-<form action="<?php echo JRoute::_('index.php?option=com_bwlabforms'); ?>" id="application-form" method="post" name="adminForm" class="form-validate">
-    <input type="hidden" id="t_listHS" name="t_listHS" value="<?php echo $this->bwlabfield->t_listHS; ?>" />
-    <input type="hidden" id="t_listHRB" name="t_listHRB" value="<?php echo $this->bwlabfield->t_listHRB; ?>" />
+
+<form action="<?php echo JRoute::_('index.php?option=' . JRequest::getVar('option')); ?>" id="application-form" method="post" name="adminForm" class="form-validate">
+
     <div id="config-document">
         <div id="page-general" class="tab">
             <div class="show">
@@ -34,11 +33,17 @@ JHtml::_('behavior.tooltip');
                 </div>
                 <div class="width-50 fltlt">
                     <?php echo $this->loadTemplate('main'); ?>
-                    <?php if ($this->texttypefield): ?>
-                    <?php echo $this->loadTemplate($this->fieldtype . '_' . $this->texttypefield ); ?>
-                        <?php else: ?>
-                        <?php echo $this->loadTemplate($this->fieldtype); ?>
-                    <?php endif ?>
+                    <fieldset class="adminform">
+                        <legend><?php echo JText::_('BWLAB_FORMS_CONFIG_ATTRIBUTES'); ?></legend>
+                        <?php
+                        foreach ($this->jf_type->getFieldset('attributes') as $fieldsets => $fieldset):
+
+                            echo $fieldset->label;
+                            echo $fieldset->input;
+
+                        endforeach;
+                        ?>
+                    </fieldset>
                 </div>
 
             </div>
@@ -50,8 +55,7 @@ JHtml::_('behavior.tooltip');
         <input type="hidden" name="ordering" value="<?php echo $this->bwlabfield->ordering; ?>" />
         <input type="hidden" name="controller" value="bwlabfields" />
         <input type="hidden" name="task" value="" />
-        <input type="hidden" name="typefield" value="<?php echo $this->fieldtype ?>" />
-        <input type="hidden" name="texttypefield" value="<?php echo $this->texttypefield ?>" />
+        <input type="hidden" name="type" value="<?php echo $this->fieldtype ?>" />
         <?php echo JHtml::_('form.token'); ?>
     </div>
     <div class="clr"></div>

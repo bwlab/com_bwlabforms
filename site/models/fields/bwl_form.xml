@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="extra">
+        <fieldset
+            name="main"
+            label="BWLAB_FORMS_CONFIG_MAIN">
+           
+        </fieldset>
+    </fields>
+</form>

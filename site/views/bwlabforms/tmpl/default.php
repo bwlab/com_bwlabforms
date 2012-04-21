@@ -1,5 +1,10 @@
 <?php
 defined('_JEXEC') or die('Restricted access');
 
-    echo $this->bwlabforms;
+    foreach ($this->jf_standard->getFieldset('main') as $fieldsets => $fieldset):
+
+        echo $fieldset->label;
+        echo $fieldset->input;
+
+    endforeach;
 ?>

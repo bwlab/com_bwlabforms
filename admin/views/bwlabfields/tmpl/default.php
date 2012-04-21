@@ -1,23 +1,24 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
+
 <form action="index.php" method="post" name="adminForm">
     <div class="width-20 fltrt">
         <fieldset class="adminform">
             <legend>Legenda</legend>
             <ul>
-                <li><a href="<?php echo JRoute::_('index.php?option=com_bwlabforms&task=add&fieldtype=text&controller=bwlabfields&fid='.$this->fid); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_TEXT'); ?></a></li>
-                <li><a href="<?php echo JRoute::_('index.php?option=com_bwlabforms&task=add&fieldtype=text&texttypefield=date&controller=bwlabfields&fid='.$this->fid); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_TEXT_DATE'); ?></a></li>
-                <li><a href="<?php echo JRoute::_('index.php?option=com_bwlabforms&task=add&fieldtype=text&texttypefield=email&controller=bwlabfields&fid='.$this->fid); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_TEXT_EMAIL'); ?></a></li>
-                <li><a href="<?php echo JRoute::_('index.php?option=com_bwlabforms&task=add&fieldtype=text&texttypefield=number&controller=bwlabfields&fid='.$this->fid); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_TEXT_NUMBER'); ?></a></li>
-                <li><a href="<?php echo JRoute::_('index.php?option=com_bwlabforms&task=add&fieldtype=text&texttypefield=password&controller=bwlabfields&fid='.$this->fid); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_TEXT_PASSWORD'); ?></a></li>
-                <li><a href="<?php echo JRoute::_('index.php?option=com_bwlabforms&task=add&fieldtype=text&texttypefield=url&controller=bwlabfields&fid='.$this->fid); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_TEXT_URL'); ?></a></li>
-                <li><a href="<?php echo JRoute::_('index.php?option=com_bwlabforms&task=add&fieldtype=checkbox&controller=bwlabfields&fid='.$this->fid); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_CHECKBOX'); ?></a></li>
-                <li><a href="<?php echo JRoute::_('index.php?option=com_bwlabforms&task=add&fieldtype=radiobutton&controller=bwlabfields&fid='.$this->fid); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_RADIOBUTTON'); ?></a></li>
-                <li><a href="<?php echo JRoute::_('index.php?option=com_bwlabforms&task=add&fieldtype=select&controller=bwlabfields&fid='.$this->fid); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_SELECT'); ?></a></li>
-                <li><a href="<?php echo JRoute::_('index.php?option=com_bwlabforms&task=add&fieldtype=button&controller=bwlabfields&fid='.$this->fid); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_BUTTON'); ?></a></li>
-                <li><a href="<?php echo JRoute::_('index.php?option=com_bwlabforms&task=add&fieldtype=textarea&controller=bwlabfields&fid='.$this->fid); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_TEXTAREA'); ?></a></li>
-                <li><a href="<?php echo JRoute::_('index.php?option=com_bwlabforms&task=add&fieldtype=hidden&controller=bwlabfields&fid='.$this->fid); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_HIDDEN'); ?></a></li>
-                <li><a href="<?php echo JRoute::_('index.php?option=com_bwlabforms&task=add&fieldtype=separator&controller=bwlabfields&fid='.$this->fid); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_SEPARATOR'); ?></a></li>
+                <li><a href="<?php echo JRoute::_('index.php?' . BWLabFormHelper::getFieldUrl('text', $this->fid)); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_TEXT'); ?></a></li>
+                <li><a href="<?php echo JRoute::_('index.php?' . BWLabFormHelper::getFieldUrl('date', $this->fid)); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_DATE'); ?></a></li>
+                <li><a href="<?php echo JRoute::_('index.php?' . BWLabFormHelper::getFieldUrl('email', $this->fid)); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_EMAIL'); ?></a></li>
+                <li><a href="<?php echo JRoute::_('index.php?' . BWLabFormHelper::getFieldUrl('number', $this->fid)); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_NUMBER'); ?></a></li>
+                <li><a href="<?php echo JRoute::_('index.php?' . BWLabFormHelper::getFieldUrl('password', $this->fid)); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_PASSWORD'); ?></a></li>
+                <li><a href="<?php echo JRoute::_('index.php?' . BWLabFormHelper::getFieldUrl('checkbox', $this->fid)); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_CHEKCBOX'); ?></a></li>
+                <li><a href="<?php echo JRoute::_('index.php?' . BWLabFormHelper::getFieldUrl('radiobutton', $this->fid)); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_RADIOBUTTON'); ?></a></li>
+                <li><a href="<?php echo JRoute::_('index.php?' . BWLabFormHelper::getFieldUrl('select', $this->fid)); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_SELECT'); ?></a></li>
+                <li><a href="<?php echo JRoute::_('index.php?' . BWLabFormHelper::getFieldUrl('textarea', $this->fid)); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_TEXTAREA'); ?></a></li>
+                <li><a href="<?php echo JRoute::_('index.php?' . BWLabFormHelper::getFieldUrl('file', $this->fid)); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_FILE'); ?></a></li>
+                <li><a href="<?php echo JRoute::_('index.php?' . BWLabFormHelper::getFieldUrl('hidden', $this->fid)); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_HIDDEN'); ?></a></li>
+                <li><a href="<?php echo JRoute::_('index.php?option=com_bwlabforms&task=add&fieldtype=button&controller=bwlabfields&fid=' . $this->fid); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_BUTTON'); ?></a></li>
+                <li><a href="<?php echo JRoute::_('index.php?option=com_bwlabforms&task=add&fieldtype=separator&controller=bwlabfields&fid=' . $this->fid); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_SEPARATOR'); ?></a></li>
             </ul>
         </fieldset>
 

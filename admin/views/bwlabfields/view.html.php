@@ -12,7 +12,7 @@
 defined('_JEXEC') or die();
 
 jimport( 'joomla.application.component.view' );
-
+require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'helper'.DS.'bwlabformhelper.php';
 /**
  * bwlabfields View
  *
@@ -51,10 +51,13 @@ class BWLabFormsViewBWLabFields extends JView
 		$items = & $this->get( 'Data');
 		$pagination =& $this->get('Pagination');
 
-		$this->assignRef('items',$items);
+		$this->assignRef('params',$params);
+                $this->assignRef('items',$items);
                 $this->assignRef('fid',  JRequest::getVar('fid',-1));
 		$this->assignRef('pagination', $pagination);
-
+                
+               
+                
 		parent::display($tpl);
 	}
 }

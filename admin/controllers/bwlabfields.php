@@ -62,10 +62,10 @@ class BWLabFormsControllerBWLabFields extends JController
 	function save()
 	{
 		
-		$model = $this->getModel('bwlabfield');
+		$model = $this->getModel('bwlabfieldtype');
 		$fid = JRequest::getVar( 'fid', -1 );
 		
-		if ($model->store($post)) {
+		if ($model->store(JRequest::get('POST'))) {
 			$msg = JText::_( 'Field Saved' )." !";
 		} else {
 			$msg = JText::_( 'Error Saving Field' );

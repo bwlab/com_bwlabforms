@@ -1,4 +1,5 @@
 <?php
+
 /**
  * bwlabfield table class
  * 
@@ -7,10 +8,10 @@
  * @link http://www.bwlab.it
  * @license		GNU/GPL
  */
-
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+jimport('joomla.database.table');
 
 /**
  * bwlabfield Table class
@@ -18,109 +19,105 @@ defined('_JEXEC') or die('Restricted access');
  * @package    BWLab.Joomla
  * @subpackage Components
  */
-class TableBWLabField extends JTable
-{
-	/**
-	 * Primary Key
-	 *
-	 * @var int
-	 */
-	var $id = null;
-	
-	/**
-	 * @var int
-	 */
-	var $fid = null;
-	
-	/**
-	 * @var string
-	 */
-	var $label = null;
+class TableBWLabField extends JTable {
+    /*
+     * attributi comuni
+     */
 
-	/**
-	 * @var string
-	 */
-	var $name = null;
+    /**
+     * Primary Key
+     *
+     * @public  int
+     */
+    public $id = null;
 
-	/**
-	 * @var string
-	 */
-	var $typefield = null;
+    /**
+     * @public  int
+     */
+    public $fid = null;
 
-	/**
-	 * @var int
-	 */
-	var $ordering = null;
+    /**
+     * @public  string
+     */
+    public $type = null;
 
-	/**
-	 * @var int
-	 */
-	var $published = 1;
+    /**
+     * @public  string
+     */
+    public $label = null;
 
-	/**
-	 * @var int
-	 */
-	var $mandatory = 0;
-	
-	/**
-	 * @var int
-	 */
-	var $readonly = 0;
+    /**
+     * @public  string
+     */
+    public $name = null;
 
-	/**
-	 * @var string
-	 */
-	var $custominfo = null;
+    /**
+     * @public  string
+     */
+    public $title = null;
 
-	/**
-	 * @var string
-	 */
-	var $customerror = null;
+    /**
+     * @public  int
+     */
+    public $ordering = null;
 
-	/**
-	 * @var string
-	 */
-	var $customvalidation = null;
+    /**
+     * @public  int
+     */
+    public $published = 1;
 
-	/**
-	 * @var string
-	 */
-	var $fieldCSSclass = null;
+    /**
+     * @public  int
+     */
+    public $required = 0;
 
-	/**
-	 * @var string
-	 */
-	var $labelCSSclass = null;
-	
-	/**
-	 * @var string
-	 */
-	var $customtext = null;
-	
-	/**
-	 * @var string
-	 */
-	var $customtextCSSclass = null;
-	
-	/**
-	 * @var int
-	 */
-	var $frontdisplay = 1;
-	
-	var $fillwith = null;
-	
-	/**
-	 * Constructor
-	 *
-	 * @param object Database connector object
-	 */
-	function TableBWLabField(& $db) {			
-		parent::__construct('#__bwlabfields', 'id', $db);
-	}
-	
-	function store() {
+    /**
+     * @public  int
+     */
+    public $readonly = 0;
 
-		return parent::store();
-	}
+    /**
+     * @public  int
+     */
+    public $disabled = 0;
+
+    /**
+     * @public  string
+     */
+    public $cssclass = null;
+
+    /**
+     * @public  string
+     */
+    public $labelcssclass = null;
+
+    /**
+     * @public  string
+     */
+    public $custominfo = null;
+
+    /**
+     * @public  string
+     */
+    public $customerror = null;
+
+    /**
+     * @public  string
+     */
+    public $customtext = null;
+
+    /**
+     * @public  string
+     */
+    public $customtextcss = null;
+
+    /**
+     * Constructor
+     *
+     * @param object Database connector object
+     */
+    function __construct(&$db, $table = '#__bwlabfields', $key = 'id') {
+        parent::__construct($table, $key, $db);
+    }
+
 }
-?>

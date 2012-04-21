@@ -9,7 +9,6 @@
  * @license		GNU/GPL
  */
 jimport('joomla.application.component.view');
-jimport('ZendFramework.Zend.Loader');
 
 /**
  * HTML View class for the CKForms Component
@@ -23,9 +22,6 @@ class BWLabFormsViewBWLabForms extends JView {
 
         parent::__construct($config);
 
-        Zend_Loader::loadClass('Zend_Validate_Interface');
-        Zend_Loader::loadClass('Zend_Form');
-        Zend_Loader::loadClass('Zend_View');
     }
 
     function display($tpl = null) {
@@ -38,48 +34,98 @@ class BWLabFormsViewBWLabForms extends JView {
             return;
 
         $action = "index.php?option=com_bwlabforms&view=bwlabforms&task=send&id=" . $bwlabforms->id;
-
+        
+        /**
+         * directory form and field xml model 
+         */
+        $path = JPATH_COMPONENT.DS.'models'.DS.'fields';
+        
+        /**
+         * load xml form model 
+         * @var JXMLElement
+         */
+        $xml_form =  simplexml_load_file($path.DS.'bwl_form.xml', 'JXMLElement');
+        $fieldset = $xml_form->xpath('//fieldset[@name="main"]');
+        $field = $fieldset[0]->addChild('field');
+        $field->addAttribute('type', 'text');
+        $field->addAttribute('label', 'test');
+        $field->addAttribute('name', 'test');
+     
+        
+           $field = $fieldset[0]->addChild('field');
+        $field->addAttribute('type', 'text');
+        $field->addAttribute('label', 'nuovo amico');
+        $field->addAttribute('name', 'test2');
+        
+        /**
+         *load cml field model 
+         */
+        $xml_field =  simplexml_load_file($path.DS.'bwl_flds_text.xml', 'JXMLElement');
+        
+  
+        
+        JForm::addFormPath($path);
+        $jf_standard = new JForm('formmain');
+        $jf_standard->load($xml_form);
+//        JForm::getInstance('formmain','bwl_form');
+        //$jf_standard->setField($xml_field, 'extra');
+        
+        //$jf_standard->setField($xml_field, 'extra');
+        $this->assignRef('jf_standard', $jf_standard);
+        
         //$post = JRequest::get('post', JREQUEST_ALLOWHTML);
 
-        $form = $this->getForm($action);
+//        $form = $this->getForm($action);
 
+        
+        
+        
         /**
          * form elements creation 
          */
-        foreach ($bwlabforms->fields as $field) {
-
-            $type = $this->getFieldType($field);
-
-            $form->addElement($type, $field->name, array('label' => $field->label));
-
-            $form->getElement($field->name)
-                    ->addDecorator(array('data' => 'HtmlTag'), array('tag' => 'div', 'class' => 'inputdiv'))
-                    ->addDecorator('Label');
-            //->addDecorator(array('labelDivClose' => 'HtmlTag'), array('tag' => 'div', 'class' => 'labeldiv', 'placement' => 'prepend', 'openOnly' => true));
-
-            $form->getElement($field->name)->setValue(
-                    $this->getDefaultValue($field)
-            );
-            switch ($type) {
-
-                case 'radio':
-                case 'select':
-                case 'multiselect':
-                    $this->setOptions($field, $form->getElement($field->name));
-                    break;
-                case 'checkbox':
-                    if ($field->t_checkedCB)
-                        $form->getElement($field->name)->setAttrib('checked', 'checked');
-                    break;
-                case 'hidden':
-                case 'button':
-                    $form->getElement($field->name)->removeDecorator('Label');
-                    break;
-                default:
-                    break;
-            }
-            $form->getElement($field->name);
-        }
+//        foreach ($bwlabforms->fields as $field) {
+//
+//            $type = $this->getFieldType($field);
+//
+//            $form->addElement($type, $field->name, array('label' => $field->label));
+//
+//            $form->getElement($field->name)
+//                    ->addDecorator(array('data' => 'HtmlTag'), array('tag' => 'div', 'class' => 'inputdiv'))
+//                    ->addDecorator('Label');
+//            //->addDecorator(array('labelDivClose' => 'HtmlTag'), array('tag' => 'div', 'class' => 'labeldiv', 'placement' => 'prepend', 'openOnly' => true));
+//
+//            $form->getElement($field->name)->setValue(
+//                    $this->getDefaultValue($field)
+//            );
+//            switch ($type) {
+//                case 'file':
+//                    $form->getElement($field->name)->setDecorators(
+//                            array(
+//                                'File',
+//                                'Errors',
+//                                array(array('data' => 'HtmlTag'),  array('tag' => 'div', 'class' => 'inputdiv')),
+//                                array('Label'),
+//                            )
+//                    );
+//                    break;
+//                case 'radio':
+//                case 'select':
+//                case 'multiselect':
+//                    $this->setOptions($field, $form->getElement($field->name));
+//                    break;
+//                case 'checkbox':
+//                    if ($field->t_checkedCB)
+//                        $form->getElement($field->name)->setAttrib('checked', 'checked');
+//                    break;
+//                case 'hidden':
+//                case 'button':
+//                    $form->getElement($field->name)->removeDecorator('Label');
+//                    break;
+//                default:
+//                    break;
+//            }
+//            $form->getElement($field->name);
+//        }
 
         $this->assignRef('params', $mainframe->getParams('com_content'));
         $this->assignRef('bwlabforms', $form);
