@@ -149,4 +149,61 @@ class BWLabFormsModelBWLabFields extends JModel {
         return $this->_pagination;
     }
 
+    /**
+     * duplicate field in new field
+     * @param type $pk 
+     */
+    public function duplicateField($pk) {
+
+        $flds = $this->getDbo()->getTableColumns('#__bwlabfields');
+
+        $sqlmodel = "INSERT INTO #__bwlabfields (%s) (SELECT %s FROM #__bwlabfields WHERE id=$pk)";
+
+        unset($flds['id']);
+
+        $query = sprintf($sqlmodel, implode(',', array_keys($flds)), implode(',', array_keys($flds)));
+
+        $this->getDbo()->setQuery($query)->query();
+    }
+
+    /**
+     * reorder fields in list
+     * 
+     * @param int $form_id
+     * @param array $pks list ok fields keys
+     * @param array $order list of relative order
+     * @return boolean 
+     */
+    public function saveOrder($form_id, $pks = array(), $order = array()) {
+
+        if (empty($pks)) {
+
+            $sqlmodel = "SELECT * FROM #__bwlabfields WHERE fid=" . $form_id . " order by ordering, id";
+
+            $objs = $this->getDbo()->setQuery($sqlmodel)->loadObjectList();
+
+            foreach ($objs as $k => $obj) {
+
+                $order = $k;
+                $sqlmodel = "update #__bwlabfields set ordering = $order WHERE id = " . $obj->id;
+
+                $this->getDbo()->setQuery($sqlmodel)->query();
+            }
+
+            return true;
+        }
+        
+        foreach ($pks as $k=>$pk) {
+            
+            $field = $this->getTable('BWLabField');
+            
+            $field->load($pk);
+            
+            $field->ordering = $order[$k];
+            
+            $field->store();
+        }
+        return true;
+    }
+
 }

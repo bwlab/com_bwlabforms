@@ -1,4 +1,4 @@
-v<?php
+<?php
 /**
  * bwlabfield table class
  * 
@@ -11,6 +11,7 @@ v<?php
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.database.table');
+require_once 'bwlabfield.php';
 
 /**
  * bwlabfield type textTable class
@@ -18,57 +19,24 @@ jimport('joomla.database.table');
  * @package    BWLab.Joomla
  * @subpackage Components
  */
-class TableBWLabFieldTypeTextArea extends TableBWLabField {
+class TableBWLabFieldTypeTextArea extends TableBWLabField{
 
     /**
      *
      * @var string
      */
-    public $value = null;
+    public $cols = null;
+
     /**
      *
      * @var integer
      */
-    public $maxlength = null;
-    /**
-     *
-     * @var string
-     */
-    public $src = null;
-    /**
-     *
-     * @var integer
-     */
-    public $size = null;
+    public $rows = null;
+
     /**
      *
      * @var boolean
      */
-    public $checked = null;
-    /**
-     *
-     * @var string
-     */
-    public $alt = null;
-    /**
-     *
-     * @var string
-     */
-    public $accept = null;
-    /**
-     *
-     * @var string
-     */
-    public $date_format = null;
-    /**
-     *
-     * @var date
-     */
-    public $date_today = null;
-    /**
-     *
-     * @var string
-     */
-    public $radio_options = null;
+    public $is_editor = null;
 
 }

@@ -22,28 +22,54 @@ jimport('joomla.application.component.view');
 class BWLabFormsViewBWLabField extends JView {
 
     /**
-     * display method of bwlabfield view
+     * display field customizing
+     * 
      * @return void
      * */
     function display($tpl = null) {
 
-        
-        JForm::addFormPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'forms');
-        
-        $jf_standard = JForm::getInstance('standard','bwl_flds_standard');
+
+        JForm::addFormPath(JPATH_COMPONENT_ADMINISTRATOR . DS . 'models' . DS . 'forms');
+
+        $jf_standard = JForm::getInstance('standard', 'bwl_flds_standard');
         $this->assignRef('jf_standard', $jf_standard);
-        
-        $jf_type = JForm::getInstance('attribute','bwl_flds_'.JRequest::getVar('type'));
-        $this->assignRef('jf_type', $jf_type);
-        
-        
-        $this->assignRef('type', JRequest::getVar('type', null));
 
-
-        //get the field data
+         //retrieve field data 
         $bwlabfield = & $this->get('Data');
-        $isNew = ($bwlabfield->id < 1);
 
+        $isNew = ($bwlabfield->id < 1);
+        
+        switch (!isNew? JRequest::getVar('type') : $bwlabfield->type) {
+
+            case 'textarea':
+            case 'editor':
+                $jf_type = JForm::getInstance('attribute', 'bwl_flds_textarea');
+                $type = 'text';
+                break;
+
+            case 'select':
+                $jf_type = JForm::getInstance('attribute', 'bwl_flds_select');
+                $type = 'text';
+                break;
+
+            default:
+                $jf_type = JForm::getInstance('attribute', 'bwl_flds_text');
+                $type = 'text';
+                break;
+        }
+
+        $this->assignRef('type', $type);
+        
+        $this->assignRef('jf_type', $jf_type);
+
+        if (!$isNew) {
+            $bwlabfield->subtype = $bwlabfield->type;
+            $jf_type->bind($bwlabfield);
+            $jf_standard->bind($bwlabfield);
+        }
+        /**
+         * @todo insert logo image
+         */
         $doc = & JFactory::getDocument();
         $css = '.icon-48-bwlabform {background:url(../administrator/components/com_bwlabforms/images/logo-banner.png) no-repeat;}';
         $doc->addStyleDeclaration($css);
@@ -53,24 +79,17 @@ class BWLabFormsViewBWLabField extends JView {
 
         JToolBarHelper::save();
         JToolBarHelper::apply('apply');
-        if ($isNew) {
-            $this->assignRef('fieldtype', JRequest::getVar('fieldtype', null));
-            $this->assignRef('texttypefield', JRequest::getVar('texttypefield', null));
 
+        if ($isNew) {
             JToolBarHelper::cancel();
         } else {
-            $this->assignRef('fieldtype', $bwlabfield->typefield);
-            $this->assignRef('texttypefield', $bwlabfield->texttypefield);
             // for existing items the button is renamed `close`
             JToolBarHelper::cancel('cancel', 'Close');
         }
 
 
-        $document = JFactory::getDocument();
-        $document->addScript(JURI::root(true) . '/administrator/components/com_bwlabforms/js/bwlabforms.js');
-
         $this->assignRef('bwlabfield', $bwlabfield);
-
+        $this->assignRef('fid', JRequest::getVar('fid', null));
         $this->_setSubMenu();
         parent::display($tpl);
     }

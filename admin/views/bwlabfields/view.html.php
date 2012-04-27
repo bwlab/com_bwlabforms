@@ -12,6 +12,8 @@
 defined('_JEXEC') or die();
 
 jimport( 'joomla.application.component.view' );
+jimport('joomla.html.pagination');
+
 require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'helper'.DS.'bwlabformhelper.php';
 /**
  * bwlabfields View
@@ -27,17 +29,9 @@ class BWLabFormsViewBWLabFields extends JView
 	 **/
 	function display($tpl = null)
 	{
-		$doc =& JFactory::getDocument();
-		$css = '.icon-48-bwlabform {background:url(../administrator/components/com_bwlabforms/images/logo-banner.png) no-repeat;}';
-   		$doc->addStyleDeclaration($css);
-
-		$document =& JFactory::getDocument();
-		$document->addStyleSheet(JURI::root(true).'/administrator/components/com_bwlabforms/css/bwlabforms_min.css');
 	
 		JToolBarHelper::title(JText::_( 'BWLabForms - Fields' ), 'bwlabform' );
 	
-		JToolBarHelper::custom('addsep','publish.png','publish.png',JText::_( 'Add separator' ),false) ;
-		JToolBarHelper::divider();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 		JToolBarHelper::deleteList();
@@ -48,7 +42,7 @@ class BWLabFormsViewBWLabFields extends JView
 		JToolBarHelper::back('Forms','index.php?option=com_bwlabforms');
 
 		// Get data from the model
-		$items = & $this->get( 'Data');
+		$items = $this->get( 'Data');
 		$pagination =& $this->get('Pagination');
 
 		$this->assignRef('params',$params);

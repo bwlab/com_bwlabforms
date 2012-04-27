@@ -1,23 +1,15 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-
 <form action="index.php" method="post" name="adminForm">
     <div class="width-20 fltrt">
         <fieldset class="adminform">
             <legend>Legenda</legend>
             <ul>
                 <li><a href="<?php echo JRoute::_('index.php?' . BWLabFormHelper::getFieldUrl('text', $this->fid)); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_TEXT'); ?></a></li>
-                <li><a href="<?php echo JRoute::_('index.php?' . BWLabFormHelper::getFieldUrl('date', $this->fid)); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_DATE'); ?></a></li>
-                <li><a href="<?php echo JRoute::_('index.php?' . BWLabFormHelper::getFieldUrl('email', $this->fid)); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_EMAIL'); ?></a></li>
-                <li><a href="<?php echo JRoute::_('index.php?' . BWLabFormHelper::getFieldUrl('number', $this->fid)); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_NUMBER'); ?></a></li>
-                <li><a href="<?php echo JRoute::_('index.php?' . BWLabFormHelper::getFieldUrl('password', $this->fid)); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_PASSWORD'); ?></a></li>
                 <li><a href="<?php echo JRoute::_('index.php?' . BWLabFormHelper::getFieldUrl('checkbox', $this->fid)); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_CHEKCBOX'); ?></a></li>
                 <li><a href="<?php echo JRoute::_('index.php?' . BWLabFormHelper::getFieldUrl('radiobutton', $this->fid)); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_RADIOBUTTON'); ?></a></li>
                 <li><a href="<?php echo JRoute::_('index.php?' . BWLabFormHelper::getFieldUrl('select', $this->fid)); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_SELECT'); ?></a></li>
                 <li><a href="<?php echo JRoute::_('index.php?' . BWLabFormHelper::getFieldUrl('textarea', $this->fid)); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_TEXTAREA'); ?></a></li>
-                <li><a href="<?php echo JRoute::_('index.php?' . BWLabFormHelper::getFieldUrl('file', $this->fid)); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_FILE'); ?></a></li>
-                <li><a href="<?php echo JRoute::_('index.php?' . BWLabFormHelper::getFieldUrl('hidden', $this->fid)); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_HIDDEN'); ?></a></li>
-                <li><a href="<?php echo JRoute::_('index.php?option=com_bwlabforms&task=add&fieldtype=button&controller=bwlabfields&fid=' . $this->fid); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_BUTTON'); ?></a></li>
                 <li><a href="<?php echo JRoute::_('index.php?option=com_bwlabforms&task=add&fieldtype=separator&controller=bwlabfields&fid=' . $this->fid); ?>"><?php echo JText::_('BWLABFORMS_ADD_NEW_FIELD_SEPARATOR'); ?></a></li>
             </ul>
         </fieldset>
@@ -33,16 +25,16 @@
                     <th width="3%">
                         <input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->items); ?>);" />
                     </th>			
-                    <th width="40%">
+                    <th width="25%">
                         <?php echo JText::_('Label'); ?>
                     </th>
-                    <th width="20%">
+                    <th width="25%">
                         <?php echo JText::_('Name'); ?>
                     </th>
                     <th width="5%" nowrap="nowrap">
                         <?php echo JHTML::_('grid.sort', JText::_('Published'), 'published', @$lists['order_Dir'], @$lists['order']); ?>
                     </th>
-                    <th width="10%" nowrap="nowrap">
+                    <th width="20%" nowrap="nowrap">
                         <?php echo JHTML::_('grid.sort', JText::_('Order by'), 'c.ordering', @$lists['order_Dir'], @$lists['order']); ?>
                         <?php echo JHTML::_('grid.order', $this->items); ?>
                     </th>
@@ -55,13 +47,12 @@
                 </tr>			
             </thead>
             <?php
-            $k = 0;
             $n = count($this->items);
-            for ($i = 0; $i < $n; $i++) {
-                $row = &$this->items[$i];
-                $published = JHTML::_('grid.published', $row, $i);
-                $checked = JHTML::_('grid.id', $i, $row->id);
-                $link = JRoute::_('index.php?option=com_bwlabforms&controller=bwlabfields&task=edit&cid[]=' . $row->id . '&fid=' . JRequest::getVar('fid', -1));
+            foreach ($this->items as $i => $field):
+                $published = JHTML::_('grid.published', $field, $i);
+                $checked = JHTML::_('grid.id', $i, $field->id);
+                $link = JRoute::_('index.php?' . BWLabFormHelper::getFieldUrl('text', $this->fid, 'edit')."&cid[]=" . $field->id);
+                
                 ?>
                 <tr class="<?php echo "row$k"; ?>">
                     <td>
@@ -71,42 +62,29 @@
                         <?php echo $checked; ?>
                     </td>
                     <td>
-                        <a href="<?php echo $link; ?>"><?php echo $row->label; ?></a>
+                        <a href="<?php echo $link; ?>"><?php echo $field->label; ?></a>
                     </td>
                     <td>
-                        <a href="<?php echo $link; ?>"><?php echo $row->name; ?></a>
+                        <a href="<?php echo $link; ?>"><?php echo $field->name; ?></a>
                     </td>
                     <td align="center">
                         <?php echo $published; ?>
                     </td>
-                    <td>
-                        <?php
-                        jimport('joomla.html.pagination');
-                        $page = new JPagination($n, 1, $n);
-                        ?>
+                    <td class="order">
+                        <?php $page = new JPagination($n, 1, $n); ?>
                         <span><?php echo $page->orderUpIcon($i, $i > 0, 'orderup', JText::_('Move Up'), true); ?></span>
                         <span><?php echo $page->orderDownIcon($i, $n, $i < $n, 'orderdown', JText::_('Move Down'), true); ?></span>					
-                        <input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
+                        <input type="text" name="order[]" size="5" value="<?php echo $field->ordering; ?>" class="text-area-order"/>
                     </td>
                     <td nowrap="nowrap">
-                        <a href="<?php echo $link; ?>"><?php echo $row->typefield; ?>
-                            <?php
-                            if ($row->typefield == "text") {
-                                $opt = explode("[--]", $row->defaultvalue);
-                                $key = explode("===", $opt[2]);
-                                echo " [" . $key[1] . "]";
-                            }
-                            ?>		
-                        </a>
+                        <a href="<?php echo $link; ?>"><?php echo $field->type; ?></a>
                     </td>
                     <td>
-                        <?php echo $row->id; ?>
+                        <?php echo $field->id; ?>
                     </td>
                 </tr>
-                <?php
-                $k = 1 - $k;
-            }
-            ?>
+                <?php $k = 1 - $k ?>
+            <?php endforeach; ?>
 
             <tfoot>
                 <tr>
@@ -120,5 +98,5 @@
     <input type="hidden" name="task" value="" />
     <input type="hidden" name="boxchecked" value="0" />
     <input type="hidden" name="controller" value="bwlabfields" />
-    <input type="hidden" name="fid" value="<?php echo JRequest::getVar('fid', -1) ?>" />
+    <input type="hidden" name="fid" value="<?php echo $this->fid ?>" />
 </form>

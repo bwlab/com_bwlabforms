@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- one file to magane all text field attributes -->
 <form>
-    <fieldset
-        name="attributes"
-        label="BWLAB_FORMS_CONFIG_MAIN">
+    <fieldset name="attributes-text">
         <field
             name="value"
             type="text"
@@ -23,6 +22,64 @@
             default=""
             label="BWLAB_FORMS_FIELD_SIZE"
             description="BWLAB_FORMS_FIELD_SIZE_DESC"
+        />
+        <field name="subtype" 
+               type="radio"  
+               label="BWLAB_FORMS_FIELD_TEXT_SUBTYPE" 
+               description="BWLAB_FORMS_FIELD_TEXT_SUBTYPE_DESC"
+               required="true">
+            <option value="text">text</option>
+            <option value="password">password</option>
+            <option value="hidden">hidden</option>
+            <option value="submit">submit</option>
+            <option value="email">email</option>
+            <option value="number">number</option>
+        </field>
+    </fieldset>
+    <fieldset name="attributes-date">
+        <field
+            name="date_format"
+            type="list"
+            default=""
+            label="BWLAB_FORMS_FIELD_FORMAT"
+            description="BWLAB_FORMS_FIELD_FORMAT_DESC"
+        >
+            <option value="YYYY-mm-dd">YYYY-mm-dd</option>
+            <option value="dd-mm-YYYY">dd-mm-YYYY</option>
+            
+        </field>
+        <field
+            name="date_today"
+            type="checkbox"
+            default=""
+            label="BWLAB_FORMS_FIELD_TODAY"
+            description="BWLAB_FORMS_FIELD_TODAY_DESC"
+        />
+    </fieldset>
+    <fieldset name="attributes-radiobutton">
+        <field
+            name="value"
+            type="textarea"
+            default=""
+            rows="10" cols="5"
+            label="BWLAB_FORMS_FIELD_OPTIONS"
+            description="BWLAB_FORMS_FIELD_OPTIONS_DESC"
+        />
+    </fieldset>
+    <fieldset name="attributes-checkbox">
+        <field
+            name="value"
+            type="text"
+            default=""
+            label="BWLAB_FORMS_FIELD_VALUE"
+            description="BWLAB_FORMS_FIELD_VALUE_DESC"/>
+        <field
+            name="checked"
+            type="checkbox"
+            default=""
+            value="0"
+            label="BWLAB_FORMS_FIELD_CHECKED"
+            description="BWLAB_FORMS_FIELD_CHECKED_DESC"
         />
     </fieldset>
 </form>

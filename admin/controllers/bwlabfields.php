@@ -8,11 +8,11 @@
  * @link http://www.cookex.eu
  * @license		GNU/GPL
  */
- 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-jimport( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helper' . DS . 'bwlabformhelper.php';
 
 /**
  * bwlabfields Controller
@@ -20,336 +20,199 @@ jimport( 'joomla.application.component.controller' );
  * @package    CK.Joomla
  * @subpackage Components
  */
-class BWLabFormsControllerBWLabFields extends JController
-{
-	/**
-	 * constructor (registers additional tasks to methods)
-	 * @return void
-	 */
-	function __construct()
-	{
-	
-		parent::__construct();
+class BWLabFormsControllerBWLabFields extends JController {
 
-		// Register Extra tasks
-		//$this->registerTask( 'add'  , 	'edit' );
-		$this->registerTask( 'apply', 'save' );
-		$this->registerTask( 'unpublish',	'publish' );
-	}
+    /**
+     * constructor (registers additional tasks to methods)
+     * @return void
+     */
+    function __construct() {
 
-	/**
-	 * display the edit form
-	 * @return void
-	 */
-	function edit() {
-	
-		JRequest::setVar( 'view', 'bwlabfield' );
-		JRequest::setVar( 'layout', 'bwlabfield_tpl');
-		
-		parent::display();
-	}
+        parent::__construct();
+        // Register Extra tasks
+        //$this->registerTask( 'add'  , 	'edit' );
+        $this->registerTask('apply', 'save');
+        $this->registerTask('unpublish', 'publish');
+    }
 
-        function add() {
-		JRequest::setVar( 'view', 'bwlabfield' );
-		JRequest::setVar( 'layout', 'bwlabfield_tpl');
-		
-		parent::display();
-	}
-	/**
-	 * save a record (and redirect to main page)
-	 * @return void
-	 */
-	function save()
-	{
-		
-		$model = $this->getModel('bwlabfieldtype');
-		$fid = JRequest::getVar( 'fid', -1 );
-		
-		if ($model->store(JRequest::get('POST'))) {
-			$msg = JText::_( 'Field Saved' )." !";
-		} else {
-			$msg = JText::_( 'Error Saving Field' );
-		}
+    /**
+     * display the edit form
+     * @return void
+     */
+    function edit() {
 
-		$task = JRequest::getCmd( 'task' );
-		
-		switch ($task)
-		{
-			case 'apply':
-				$link = 'index.php?option=com_bwlabforms&controller=bwlabfields&task=edit&cid[]='.$model->getId().'&fid='.$fid;
-				break;
+        JRequest::setVar('view', 'bwlabfield');
 
-			case 'save':
-			default:
-				$link = 'index.php?option=com_bwlabforms&controller=bwlabfields&fid='.$fid;
-				break;
-		}
-		
-		$this->setRedirect($link, $msg);
-	}
+        $view = $this->getView('bwlabfield', 'html');
+        $view->setModel($this->getModel('BWLabFieldType'), true);
+        $view->display();
+    }
 
-	/**
-	 * remove record(s)
-	 * @return void
-	 */
-	function remove()
-	{
-		$model = $this->getModel('bwlabfield');
-		$fid = JRequest::getVar( 'fid', -1 );
-		
-		if(!$model->delete()) {
-			$msg = JText::_( 'Error: One or More Field Could not be Deleted' );
-		} else {
-			$msg = JText::_( 'Field(s) Deleted' );
-		}
+    function add() {
 
-		$this->setRedirect('index.php?option=com_bwlabforms&controller=bwlabfields&fid='.$fid, $msg );
-	}
+        JRequest::setVar('view', 'bwlabfield');
+        parent::display();
+    }
 
-	/**
-	 * cancel editing a record
-	 * @return void
-	 */
-	function cancel()
-	{
-		$msg = JText::_( 'Operation Cancelled' );
-		$fid = JRequest::getVar( 'fid', -1 );
-		
-		$this->setRedirect( 'index.php?option=com_bwlabforms&controller=bwlabfields&fid='. $fid, $msg );
-	}
-	
-	function publish()
-	{
-		
-		// Initialize variables
-		$db			=& JFactory::getDBO();
-		$user		=& JFactory::getUser();
-		$cid		= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		$task		= JRequest::getCmd( 'task' );
-		$publish	= ($task == 'publish');
-		$n			= count( $cid );
-		$fid		= JRequest::getVar( 'fid', -1 );
+    /**
+     * save a record (and redirect to main page)
+     * @return void
+     */
+    function save() {
 
-		if (empty( $cid )) {
-			return JError::raiseWarning( 500, JText::_( 'No items selected' ) );
-		}
+        $model = $this->getModel('bwlabfieldtype');
 
-		JArrayHelper::toInteger( $cid );
-		$cids = implode( ',', $cid );
+        $fid = JRequest::getVar('fid', -1);
 
-		$query = 'UPDATE #__bwlabfields'
-		. ' SET published = ' . (int) $publish
-		. ' WHERE id IN ( '. $cids.'  )'
-		;
-		$db->setQuery( $query );
-		if (!$db->query()) {
-			return JError::raiseWarning( 500, $row->getError() );
-		}
-		$this->setMessage( JText::sprintf( $publish ? 'Fields published' : 'Fields unpublished', $n ) );
-		
-		$link = 'index.php?option=com_bwlabforms&controller=bwlabfields&fid='. $fid ;
-		
-		$this->setRedirect($link);
-	}	
-	
-	/**
-	 * Method to display the view
-	 *
-	 * @access	public
-	 */
-	function display()
-	{	
-		JRequest::setVar( 'view', 'bwlabfields' );
-		
-		parent::display();
-	}
-	
-	/**
-	 * Method to order up the record
-	 *
-	 * @access	public
-	 */
-	function orderup()
-	{
-		$fid = JRequest::getVar( 'fid', -1 );
+        $field = $model->store(JRequest::get('POST'));
 
-		$model = $this->getModel('bwlabfield');
-		$model->move(-1);
+        if (!$field) {
 
-		$this->setRedirect('index.php?option=com_bwlabforms&controller=bwlabfields&fid='. $fid);
-	}
+            $msg = JText::_('Error Saving Field');
+        }
 
-	/**
-	 * Method to order down the record
-	 *
-	 * @access	public
-	 */
-	function orderdown()
-	{
-		$fid		= JRequest::getVar( 'fid', -1 );
+        switch (JRequest::getCmd('task')) {
+            case 'apply':
 
-		$model = $this->getModel('bwlabfield');
-		$model->move(1);
+                $link = 'index.php?' . BWLabFormHelper::getEditFieldUrl($field->get('id'), $fid);
 
-		$this->setRedirect( 'index.php?option=com_bwlabforms&controller=bwlabfields&fid='. $fid);
-	}
+                break;
 
-	/**
-	 * Method to save the order
-	 *
-	 * @access	public
-	 */
-	function saveorder()
-	{
-		$fid = JRequest::getVar( 'fid', -1 );
+            case 'save':
+            default:
+                $link = 'index.php?' . BWLabFormHelper::getFieldListUrl($fid);
+                break;
+        }
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
-		$order = JRequest::getVar( 'order', array(), 'post', 'array' );
-		JArrayHelper::toInteger($cid);
-		JArrayHelper::toInteger($order);
+        $this->setRedirect($link, $msg);
+    }
 
-		$model = $this->getModel('bwlabfield');
-		$model->saveorder($cid, $order);
+    /**
+     * remove record(s)
+     * @return void
+     */
+    function remove() {
 
-		$msg = JText::_( 'New ordering saved' );
-		$this->setRedirect('index.php?option=com_bwlabforms&controller=bwlabfields&fid='. $fid, $msg );
-	}	
-	
-	/**
-	 * Add Field separator to Field List
-	 * @return void
-	 */
-	function addsep() 
-	{
-		// Initialize variables
-		$db			=& JFactory::getDBO();
+        $table = $this->getModel('BWLabFields')
+                ->getTable('BWLabField');
 
-		$fid = JRequest::getVar( 'fid', -1);
-		
-		$query = ' SELECT * from #__bwlabforms c where c.id='.$fid.' ';
-		$form = $db->GetRow( $query );
-		if (count($form ) == 0)
-		{		
-			return JError::raiseWarning( 500, $row->getError() );
-		}
-		
-		$query = ' SELECT * from #__bwlabfields c where c.fid='.$fid.' order by ordering desc';
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
-		if (count($rows) > 0)
-		{
-			$order = $rows[0]->ordering + 1;
-		} else {
-			$order = 0;
-		}
-		
-		$query = ' SELECT * from #__bwlabfields c where c.fid='.$fid.' order by id desc';
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
-		if (count($rows) > 0)
-		{
-			$newid = $rows[0]->id + 1;
-		} else {
-			$newid = '';
-		}
-		
-		$model = $this->getModel('bwlabfield');
-		$row =& JTable::getInstance('bwlabfield', 'Table');
+        foreach (JRequest::getVar('cid', array(), 'request', 'array') as $pk) {
+            $table->delete($pk);
+        }
 
-		$row->fid = $fid;
-		$row->label = 'Field separator';
-		$row->name = 'fieldsep'.$newid;
-		$row->typefield = 'fieldsep';
-		$row->published = 1;
-		$row->ordering = $order;
-		
-		$row->store();
-		
-		$msg = JText::_( 'Field separator saved' );
-		$this->setRedirect('index.php?option=com_bwlabforms&controller=bwlabfields&fid='. $fid, $msg );		
-		
-	}
-	
-	/**
-	 * Duplicate selected Fields
-	 * @return void
-	 */
-	function duplicate()
-	{
-		
-		// Initialize variables
-		$db			=& JFactory::getDBO();
-		$user		=& JFactory::getUser();
-		$cid		= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		$task		= JRequest::getCmd( 'task' );
-		$publish	= ($task == 'publish');
-		$n			= count( $cid );
-		$fid		= JRequest::getVar( 'fid', -1 );
-		
-		if (empty( $cid )) {
-			return JError::raiseWarning( 500, JText::_( 'No items selected' ) );
-		}
+        $this->setRedirect('index.php?' . BWLabFormHelper::getFieldListUrl(JRequest::getVar('fid', -1)));
+    }
 
-		JArrayHelper::toInteger( $cid );
-		$cids = implode( ',', $cid );
+    /**
+     * cancel editing a record
+     * @return void
+     */
+    function cancel() {
 
-		$query = ' SELECT * from #__bwlabfields c where c.id IN ( '. $cids.'  )';
-		$db->setQuery($query);
-		$duplicaterows = $db->loadObjectList();
+        $msg = JText::_('Operation Cancelled');
+        $fid = JRequest::getVar('fid', -1);
 
-		for ($i=0; $i < count($duplicaterows); $i++)
-		{
-			$row = $duplicaterows[$i];
-			
-			$query = ' SELECT * from #__bwlabfields c where c.fid='.$fid.' order by ordering desc';
-			$db->setQuery($query);
-			$rows = $db->loadObjectList();
-			if (count($rows) > 0)
-			{
-				$order = $rows[0]->ordering + 1;
-			} else {
-				$order = 0;
-			}
-			
-			$query = ' SELECT * from #__bwlabfields c where c.fid='.$fid.' order by id desc';
-			$db->setQuery($query);
-			$rows = $db->loadObjectList();
-			if (count($rows) > 0)
-			{
-				$newid = $rows[0]->id + 1;
-			} else {
-				$newid = '';
-			}
-			
-			$model = $this->getModel('bwlabfield');
-			$newrow =& JTable::getInstance('bwlabfield', 'Table');
-	
-			$newrow->fid = $fid;
-			$newrow->name = 'field'.$newid;
-			$newrow->label = $row->label;
-			$newrow->typefield = $row->typefield;
-			$newrow->defaultvalue = $row->defaultvalue;
-			$newrow->mandatory = $row->mandatory;
-			$newrow->test_validity = $row->test_validity;
-			$newrow->published = $row->published;
-			$newrow->ordering = $order;
-			$newrow->custominfo = $row->custominfo;
-			$newrow->customerror = $row->customerror;
-			$newrow->customvalidation = $row->customvalidation;
-			$newrow->readonly = $row->readonly;
-			$newrow->labelCSSclass = $row->labelCSSclass;
-			$newrow->fieldCSSclass = $row->fieldCSSclass;
-			$newrow->customtext = $row->customtext;
-			$newrow->customtextCSSclass = $row->customtextCSSclass;
-			$newrow->frontdisplay = $row->frontdisplay;
-			
-			$newrow->store();
-		
-		}
+        $this->setRedirect('index.php?' . BWLabFormHelper::getFieldListUrl($fid), $msg);
+    }
 
-		$msg = JText::_( 'Fields duplicated' );
-		$this->setRedirect('index.php?option=com_bwlabforms&controller=bwlabfields&fid='. $fid, $msg );		
-	}	
-	
+    function publish() {
+
+
+        $ids = JRequest::getVar('cid', array(), 'post', 'array');
+        $task = JRequest::getVar('task', false);
+
+        $this->getModel('bwlabfields')
+                ->getTable('BWLabField')
+                ->publish($ids, ( $task == "publish" ? 1 : 0));
+
+        $this->setRedirect('index.php?' . BWLabFormHelper::getFieldListUrl(JRequest::getVar('fid', -1)));
+    }
+
+    /**
+     * Method to display the view
+     *
+     * @access	public
+     */
+    function display() {
+        JRequest::setVar('view', 'bwlabfields');
+
+        parent::display();
+    }
+
+    /**
+     * Method to order up the record
+     *
+     * @access	public
+     */
+    function orderup() {
+        
+        $pk = JRequest::getVar('cid', array(), 'post', 'array');
+        
+        $this->getModel('bwlabfields')
+                    ->getTable('BWLabField')
+                        ->moveUp( $pk[0] );
+
+        $this->setRedirect('index.php?' . BWLabFormHelper::getFieldListUrl(JRequest::getVar('fid', -1)));
+    }
+
+    /**
+     * Method to order down the record
+     *
+     * @access	public
+     */
+    function orderdown() {
+        $pk = JRequest::getVar('cid', array(), 'post', 'array');
+        
+        $this->getModel('bwlabfields')
+                    ->getTable('BWLabField')
+                        ->moveDown( $pk[0] );
+
+        $this->setRedirect('index.php?' . BWLabFormHelper::getFieldListUrl(JRequest::getVar('fid', -1)));
+    }
+
+    /**
+     * Method to save the order
+     *
+     * @access	public
+     */
+    function saveorder() {
+        $fid = JRequest::getVar('fid', -1);
+
+        $cid = JRequest::getVar('cid', array(), 'post', 'array');
+        $order = JRequest::getVar('order', array(), 'post', 'array');
+ 
+        $this->getModel('bwlabfields')
+                        ->saveOrder( $fid, $cid, $order );
+        
+        $this->getModel('bwlabfields')
+                        ->saveOrder( $fid);
+        
+        $this->setRedirect('index.php?'.BWLabFormHelper::getFieldListUrl($fid));
+
+    }
+
+    /**
+     * Duplicate selected Fields
+     * @return void
+     */
+    public function duplicate() {
+
+        $pks_fields = JRequest::getVar('cid', array(), 'post', 'array');
+
+        if (empty($pks_fields)) {
+            return JError::raiseWarning(500, JText::_('No items selected'));
+        }
+
+        foreach ($pks_fields as $pk_field) {
+
+            $this->getModel('bwlabfields')->duplicateField($pk_field);
+        }
+
+        $this->getModel('bwlabfields')->saveOrder(JRequest::getVar('fid', -1));
+
+        $msg = JText::_('Fields duplicated');
+
+        $this->setRedirect('index.php?' . BWLabFormHelper::getFieldListUrl(JRequest::getVar('fid', -1)), $msg);
+    }
+
 }
-?>

@@ -1,69 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form name="test">
-    <fieldset
-        name="main"
-        label="BWLAB_FORMS_CONFIG_MAIN">
+    <fieldset name="attributes-textarea">
         <field
-            name="name"
-            type="text"
-            label="BWLAB_FORMS_FIELD_NAME"
-            description="BWLAB_FORMS_FIELD_NAME_DESC"
-            required="true"
+            name="cols"
+            type="number"
+            label="BWLAB_FORMS_FIELD_COLS"
+            description="BWLAB_FORMS_FIELD_COLS_DESC"
         >
         </field>
         <field
-            name="label"
-            type="text"
-            label="BWLAB_FORMS_FIELD_LABEL"
-            description="BWLAB_FORMS_FIELD_LABEL_DESC"
-            required="true"
+            name="rows"
+            type="number"
+            label="BWLAB_FORMS_FIELD_ROWS"
+            description="BWLAB_FORMS_FIELD_ROWS_DESC"
         >
         </field>
         <field
-            name="published"
+            name="subtype"
             type="radio"
-            default="1"
-            label="BWLAB_FORMS_FIELD_PUBLISHED"
-            description="BWLAB_FORMS_FIELD_PUBLISHED_DESC"
-            filter="integer">
-            <option
-                value="1">JYES
-            </option>
-            <option
-                value="0">JNO
-            </option>
-        </field>
-        <field
-            name="mandatory"
-            type="checkbox"
-            default="0"
-            label="BWLAB_FORMS_FIELD_REQUIRED"
-            description="BWLAB_FORMS_FIELD_REQUIRED_DESC"
-            filter="integer">
-        </field>
-        <field
-            name="readonly"
-            type="checkbox"
-            default="0"
-            label="BWLAB_FORMS_FIELD_READONLY"
-            description="BWLAB_FORMS_FIELD_READONLY_DESC"
-        >
-        </field>
-        <field
-            name="custominfo"
-            type="text"
-            default=""
-            label="BWLAB_FORMS_FIELD_CUSTOMINFO"
-            description="BWLAB_FORMS_FIELD_CUSTOMINFO_DESC"
-        >
-        </field>
-        <field
-            name="customerror"
-            type="text"
-            default=""
-            label="BWLAB_FORMS_FIELD_CUSTOMERROR"
-            description="BWLAB_FORMS_FIELD_CUSTOMERROR_DESC"
-        >
+            label="BWLAB_FORMS_FIELD_SUBTYPE"
+            description="BWLAB_FORMS_FIELD_SUBTYPE_DESC">
+            <option value="textarea">textarea</option>
+            <option value="editor">editor</option>
         </field>
     </fieldset>
 </form>

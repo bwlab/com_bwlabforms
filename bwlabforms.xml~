@@ -55,6 +55,7 @@
 			<filename>index.html</filename>
 			<filename>bwlabforms.php</filename>
 			<filename>controller.php</filename>
+			<filename>controllers/index.html</filename>
 			<folder>controllers</folder>			
 			<folder>elements</folder>
 			<folder>helper</folder>

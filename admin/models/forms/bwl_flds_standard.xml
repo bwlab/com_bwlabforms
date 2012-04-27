@@ -24,7 +24,7 @@
             type="text"
             label="BWLAB_FORMS_FIELD_TITLE"
             description="BWLAB_FORMS_FIELD_TITLE_DESC"
-            >
+        >
         </field>
         <field
             name="published"
@@ -44,6 +44,7 @@
             name="required"
             type="checkbox"
             default="0"
+            value="1"
             label="BWLAB_FORMS_FIELD_REQUIRED"
             description="BWLAB_FORMS_FIELD_REQUIRED_DESC"
             filter="integer">
@@ -52,6 +53,7 @@
             name="readonly"
             type="checkbox"
             default="0"
+            value="1"
             label="BWLAB_FORMS_FIELD_READONLY"
             description="BWLAB_FORMS_FIELD_READONLY_DESC"
             filter="integer">
@@ -60,6 +62,7 @@
             name="disabled"
             type="checkbox"
             default="0"
+            value="1"
             label="BWLAB_FORMS_FIELD_DISABLED"
             description="BWLAB_FORMS_FIELD_DISABLED_DESC"
             filter="integer">
@@ -85,22 +88,35 @@
     </fieldset>
     <fieldset name="standard_layout" label="BWLAB_FORMS_STANDARD_LAYOUT">
         <field
-            name="labelCSSclass"
+            name="custominfo"
             type="text"
             default=""
-            label="BWLAB_FORMS_FIELD_CLASS_CSS_FOR_LABEL"
-            description="BWLAB_FORMS_FIELD_CLASS_CSS_FOR_LABEL_DESC"
-        >
-        </field>
+            label="BWLAB_FORMS_FIELD_CUSTOM_INFO"
+            description="BWLAB_FORMS_FIELD_CUSTOM_INFO_DESC"
+        />
         <field
-            name="fieldCSSclass"
+            name="customerror"
+            type="text"
+            default=""
+            label="BWLAB_FORMS_FIELD_CUSTOM_ERROR"
+            description="BWLAB_FORMS_FIELD_CUSTOM_ERROR_DESC"
+        />
+        <field
+            name="cssclass"
             type="text"
             default=""
             label="BWLAB_FORMS_FIELD_CLASS_CSS_FOR_FIELD"
             description="BWLAB_FORMS_FIELD_CLASS_CSS_FOR_FIELD_DESC"
         />
         <field
-            name="customtextCSSclass"
+            name="labelcssclass"
+            type="text"
+            default=""
+            label="BWLAB_FORMS_FIELD_CLASS_CSS_FOR_LABEL"
+            description="BWLAB_FORMS_FIELD_CLASS_CSS_FOR_LABEL_DESC"
+        />
+        <field
+            name="customtextcssclass"
             type="text"
             default=""
             label="BWLAB_FORMS_FIELD_CLASS_CSS_FOR_CUSTOM_TEXT"
@@ -109,7 +125,7 @@
     </fieldset>
     <fieldset name="standard_advance" label="BWLAB_FORMS_STANDARD_ADVANCE">
         <field
-            name="frontdisplay"
+            name="displaycustomtext"
             type="radio"
             default="1"
             label="BWLAB_FORMS_FIELD_FRONTEND_DISPLAY_ADVANCE"
@@ -123,12 +139,12 @@
             </option>
         </field>        
         <field name="customtext" 
-            type="editor" 
-            default="default" 
-            label="BWLAB_FORMS_FIELD_FRONTEND_DISPLAY_CUSTOM_TEXT" 
-            description="BWLAB_FORMS_FIELD_FRONTEND_DISPLAY_CUSTOM_TEXT_DESC" 
-            rows="10" 
-            cols="5" 
-            filter="safehtml"/>
+               type="editor" 
+               default="default" 
+               label="BWLAB_FORMS_FIELD_FRONTEND_DISPLAY_CUSTOM_TEXT" 
+               description="BWLAB_FORMS_FIELD_FRONTEND_DISPLAY_CUSTOM_TEXT_DESC" 
+               rows="10" 
+               cols="5" 
+               filter="raw"/>
     </fieldset>
 </form>

@@ -36,7 +36,7 @@ JHtml::_('behavior.tooltip');
                     <fieldset class="adminform">
                         <legend><?php echo JText::_('BWLAB_FORMS_CONFIG_ATTRIBUTES'); ?></legend>
                         <?php
-                        foreach ($this->jf_type->getFieldset('attributes') as $fieldsets => $fieldset):
+                        foreach ($this->jf_type->getFieldset('attributes-'.$this->type) as $fieldsets => $fieldset):
 
                             echo $fieldset->label;
                             echo $fieldset->input;
@@ -55,7 +55,7 @@ JHtml::_('behavior.tooltip');
         <input type="hidden" name="ordering" value="<?php echo $this->bwlabfield->ordering; ?>" />
         <input type="hidden" name="controller" value="bwlabfields" />
         <input type="hidden" name="task" value="" />
-        <input type="hidden" name="type" value="<?php echo $this->fieldtype ?>" />
+        <input type="hidden" name="type" value="<?php echo $this->type ?>" />
         <?php echo JHtml::_('form.token'); ?>
     </div>
     <div class="clr"></div>

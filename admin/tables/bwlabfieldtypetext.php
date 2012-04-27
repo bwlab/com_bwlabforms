@@ -19,24 +19,57 @@ require_once 'bwlabfield.php';
  * @package    BWLab.Joomla
  * @subpackage Components
  */
-class TableBWLabFieldTypeText extends TableBWLabField{
+class TableBWLabFieldTypeText extends TableBWLabField {
 
     /**
      *
      * @var string
      */
-    public $cols = null;
-
+    public $value = null;
     /**
      *
      * @var integer
      */
-    public $rows = null;
-
+    public $maxlength = null;
+    /**
+     *
+     * @var string
+     */
+    public $src = null;
+    /**
+     *
+     * @var integer
+     */
+    public $size = null;
     /**
      *
      * @var boolean
      */
-    public $is_editor = null;
+    public $checked = null;
+    /**
+     *
+     * @var string
+     */
+    public $alt = null;
+    /**
+     *
+     * @var string
+     */
+    public $accept = null;
+    /**
+     *
+     * @var string
+     */
+    public $date_format = null;
+    /**
+     *
+     * @var date
+     */
+    public $date_today = null;
+    /**
+     *
+     * @var string
+     */
+    public $radio_options = null;
 
 }

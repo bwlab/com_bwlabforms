@@ -116,8 +116,33 @@ class TableBWLabField extends JTable {
      *
      * @param object Database connector object
      */
-    function __construct(&$db, $table = '#__bwlabfields', $key = 'id') {
+    public function __construct(&$db, $table = '#__bwlabfields', $key = 'id') {
         parent::__construct($table, $key, $db);
+    }
+
+    public function resetPk() {
+
+        $this->set('id', null);
+    }
+
+    /**
+     * move up field
+     * @param type $pk 
+     */
+    public function moveUp($pk) {
+
+        $this->load($pk);
+        $this->move(-1);
+    }
+
+    /**
+     * move up field
+     * @param type $pk 
+     */
+    public function moveDown($pk) {
+
+        $this->load($pk);
+        $this->move(+1);
     }
 
 }

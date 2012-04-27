@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 <fieldset class="adminform">
     <legend><?php echo JText::_('BWLAB_FORMS_CONFIG_ADVANCED'); ?></legend>
     <?php
-    foreach ($this->jf_standard->getFieldset('text') as $fieldsets => $fieldset):
+    foreach ($this->jf_standard->getFieldset('standard_advance') as $fieldsets => $fieldset):
 
         echo $fieldset->label;
         echo $fieldset->input;

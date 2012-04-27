@@ -93,10 +93,11 @@ class BWLabFormsModelBWLabFieldType extends JModel {
 
         $max = $this->getMaxOrdering($data['fid']);
 
-        switch ($data['typefield']) {
+        switch ($data['type']) {
 
             case 'textarea':
                 $field = $this->getTable('BWLabFieldTypeTextArea');
+                
                 /**
                  * @var TableBWLabFieldTypeTextArea
                  */
@@ -116,17 +117,20 @@ class BWLabFormsModelBWLabFieldType extends JModel {
             default :
                 $field = $this->getTable('BWLabFieldTypeText');
                 /**
-                 * @var TableBWLabFieldTypeTextArea
+                 * @var TableBWLabFieldTypeText
                  */
                 break;
         }
-
+        
+        $type = $data['subtype']?$data['subtype']:$data['type'];
 
         if (!$field->bind($data)) {
+        
             $this->setError($this->getDbo()->getErrorMsg());
             return false;
         }
-
+        
+        $field->type = $type;
         // Set complementary data
         if ($field->ordering == "") {
             if (isset($max)) {
@@ -142,16 +146,14 @@ class BWLabFormsModelBWLabFieldType extends JModel {
             return false;
         }
 
-        $this->_id = $field->id;
-
         // Store the web link table to the database
         if (!$field->store()) {
-            //$this->setError($field->getError());
+            $this->setError($this->getDbo()->getErrorMsg());
 
             return false;
         }
 
-        return true;
+        return $field;
     }
 
     /**
