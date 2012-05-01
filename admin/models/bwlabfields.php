@@ -155,15 +155,24 @@ class BWLabFormsModelBWLabFields extends JModel {
      */
     public function duplicateField($pk) {
 
-        $flds = $this->getDbo()->getTableColumns('#__bwlabfields');
-
-        $sqlmodel = "INSERT INTO #__bwlabfields (%s) (SELECT %s FROM #__bwlabfields WHERE id=$pk)";
-
-        unset($flds['id']);
-
-        $query = sprintf($sqlmodel, implode(',', array_keys($flds)), implode(',', array_keys($flds)));
-
-        $this->getDbo()->setQuery($query)->query();
+//        $flds = $this->getDbo()->getTableColumns('#__bwlabfields');
+//
+//        $sqlmodel = "INSERT INTO #__bwlabfields (%s) (SELECT %s FROM #__bwlabfields WHERE id=$pk)";
+//
+//        unset($flds['id']);
+//
+//        $query = sprintf($sqlmodel, implode(',', array_keys($flds)), implode(',', array_keys($flds)));
+//
+//        return $this->getDbo()->setQuery($query)->query();
+        
+        
+         
+        $field = $this->getTable('BWLabField');
+        $field->load($pk);
+        $field->set('id',null);
+        $field->store();
+        
+        return $field;//$this->getDbo()->setQuery($query)->query();
     }
 
     /**

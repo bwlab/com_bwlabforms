@@ -8,12 +8,10 @@ defined('_JEXEC') or die('Restricted access');
 	<div class="submenu-box">
 		<div class="submenu-pad">
 			<ul id="submenu" class="configuration">
-				<li><a href="#" onclick="return false;" id="general" class="active"><?php echo JText::_('General'); ?></a></li>
-				<li><a href="#" onclick="return false;" id="result"><?php echo JText::_('Result'); ?></a></li>
-				<li><a href="#" onclick="return false;" id="email"><?php echo JText::_('Email'); ?></a></li>
-                                <li><a href="#" onclick="return false;" id="advanced"><?php echo JText::_('Advanced'); ?></a></li>
-                                <li><a href="#" onclick="return false;" id="frontend"><?php echo JText::_('Frontend result'); ?></a></li>
-				<li><a href="#" onclick="return false;" id="help"><?php echo JText::_('Help'); ?></a></li>
+				<li><a href="#" onclick="return false;" id="form_general" class="active"><?php echo JText::_('BWLAB_FORMS_FORM_GENERAL') ?></a></li>
+				<li><a href="#" onclick="return false;" id="form_result"><?php echo JText::_('BWLAB_FORMS_FORM_RESULT') ?></a></li>
+				<li><a href="#" onclick="return false;" id="form_mail"><?php echo JText::_('BWLAB_FORMS_FORM_MAIL') ?></a></li>
+				<li><a href="#" onclick="return false;" id="form_advance"><?php echo JText::_('BWLAB_FORMS_FORM_ADVANCE') ?></a></li>
 			</ul>
 			<div class="clr"></div>
 		</div>

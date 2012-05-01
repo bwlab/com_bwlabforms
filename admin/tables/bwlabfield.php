@@ -145,4 +145,11 @@ class TableBWLabField extends JTable {
         $this->move(+1);
     }
 
+    public function store($updateNulls = false) {
+        
+        $this->name = preg_replace('/[[:space:]]/', '', strtolower($this->name));
+        
+        parent::store($updateNulls);
+    }
+
 }

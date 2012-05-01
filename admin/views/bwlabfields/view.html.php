@@ -14,7 +14,6 @@ defined('_JEXEC') or die();
 jimport( 'joomla.application.component.view' );
 jimport('joomla.html.pagination');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'helper'.DS.'bwlabformhelper.php';
 /**
  * bwlabfields View
  *

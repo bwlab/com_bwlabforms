@@ -39,17 +39,17 @@ class BWLabFormsViewBWLabField extends JView {
 
         $isNew = ($bwlabfield->id < 1);
         
-        switch (!isNew? JRequest::getVar('type') : $bwlabfield->type) {
+        switch ($isNew? JRequest::getVar('type') : $bwlabfield->type) {
 
             case 'textarea':
             case 'editor':
                 $jf_type = JForm::getInstance('attribute', 'bwl_flds_textarea');
-                $type = 'text';
+                $type = 'textarea';
                 break;
 
             case 'select':
                 $jf_type = JForm::getInstance('attribute', 'bwl_flds_select');
-                $type = 'text';
+                $type = 'select';
                 break;
 
             default:

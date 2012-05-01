@@ -13,15 +13,6 @@ JHtml::_('behavior.switcher');
 JHtml::_('behavior.tooltip');
 ?>
 
-<script type="text/javascript">
-    Joomla.submitbutton = function(task)
-    {
-        if (task == 'application.cancel' || document.formvalidator.isValid(document.id('application-form'))) {
-            Joomla.submitform(task, document.getElementById('application-form'));
-        }
-    }
-</script>
-
 <form action="<?php echo JRoute::_('index.php?option=' . JRequest::getVar('option')); ?>" id="application-form" method="post" name="adminForm" class="form-validate">
 
     <div id="config-document">
@@ -36,7 +27,7 @@ JHtml::_('behavior.tooltip');
                     <fieldset class="adminform">
                         <legend><?php echo JText::_('BWLAB_FORMS_CONFIG_ATTRIBUTES'); ?></legend>
                         <?php
-                        foreach ($this->jf_type->getFieldset('attributes-'.$this->type) as $fieldsets => $fieldset):
+                        foreach ($this->jf_type->getFieldset('attributes-' . $this->type) as $fieldsets => $fieldset):
 
                             echo $fieldset->label;
                             echo $fieldset->input;

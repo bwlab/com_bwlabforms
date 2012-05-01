@@ -1,116 +1,145 @@
 <?php
+
 /**
- * BWLabForms for CK Form Component
+ * BWLabFields Model for CK form Component
  * 
  * @package    BWLab.Joomla
  * @subpackage Components
  * @link http://www.bwlab.it
  * @license		GNU/GPL
  */
-
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-jimport( 'joomla.application.component.model' );
+jimport('joomla.application.component.model');
 
 /**
- * BWLabForms Model
+ * BWLabFields Model
  *
- * @package    BWLab.Joomla
+ * @package    Joomla.Tutorials
  * @subpackage Components
  */
-class BWLabFormsModelBWLabForms extends JModel
-{
-	/**
-	 * forms data array
-	 *
-	 * @var array
-	 */
-	var $_data;
-	
-	/**
-	* Items total
-	* @var integer
-	*/
-	var $_total = null;
-	
-	/**
-	* Pagination object
-	* @var object
-	*/
-	var $_pagination = null;
-	
-	/*
-	 * Constructor
-	 *
-	 */
-	function __construct()
-	{
-		parent::__construct();
+class BWLabFormsModelBWLabForms extends JModel {
 
-		global $option;
-		$mainframe = JFactory::getApplication();
+    public function getData() {
 
-		
+        return $this->getDbo()
+                        ->setQuery('select * from #__bwlabforms order by id')
+                        ->loadObjectList();
+    }
 
-        // Get pagination request variables
-        $limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
-        $limitstart = JRequest::getVar('limitstart', 0, '', 'int');
- 
-        // In case limit has been changed, adjust it
-        $limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
- 
-        $this->setState('limit', $limit);
-        $this->setState('limitstart', $limitstart);
-	}
-	
-	/**
-	 * Returns the query
-	 * @return string The query to be used to retrieve the rows from the database
-	 */
-	function _buildQuery()
-	{
-		$query = ' SELECT a.*,(select count(*) from #__bwlabfields c where c.fid=a.id) nbfields, (select b.username from #__users b where a.created_by = b.id) username FROM #__bwlabforms a';
+    /**
+     * duplicate form in new form
+     * @param type $pk 
+     */
+    public function duplicateForm($pk) {
 
-		return $query;
-	}
 
-	/**
-	 * Retrieves the hello data
-	 * @return array Array of objects containing the data from the database
-	 */
-	function getData()
-	{
-		// Lets load the data if it doesn't already exist
-		if (empty( $this->_data ))
-		{
-			$query = $this->_buildQuery();
-						
-			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-			
-		}
+        $old_form = $this->getTable('BWLabForm');
+        $old_form->load($pk);
+        $old_form->set('id', null);
+        $old_form->store();
 
-		return $this->_data;
-	}
+        return $old_form; //$this->getDbo()->setQuery($query)->query();
+    }
 
-	function getTotal()
-	{
-		// Load the content if it doesn't already exist
-		if (empty($this->_total)) {
-			$query = $this->_buildQuery();		
-			$this->_total = $this->_getListCount($query);    
-		}
-		return $this->_total;
-	}
-	
-	function getPagination()
-	{
-		// Load the content if it doesn't already exist
-		if (empty($this->_pagination)) {
-			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
-		}
-		return $this->_pagination;
-	}
+    public function getFields($fid) {
+
+        return $this->getDbo()
+                        ->setQuery('select * from #__bwlabfields where fid = ' . $fid)
+                        ->loadObjectList();
+    }
+
+    public function getFieldNumber($fid) {
+
+        return $this->getDbo()
+                        ->setQuery('select count(id) as fieldnumber from #__bwlabfields where fid = ' . $fid)
+                        ->loadRow();
+    }
+
+    /**
+     * generate table 
+     * @param int $fid
+     * @return boolean
+     * @throws JException 
+     */
+    public function generateTable($fid) {
+
+        $form = $this->getTable('BWLabForm');
+
+        $form->load($fid);
+
+        /**
+         * [nomecampo] = tipo
+         * @var array 
+         */
+        $cols = $this->getDbo()->getTableColumns('#__' . $form->name);
+
+        $sqlfields = array();
+
+        $fields = $this->getFields($fid);
+
+        if (empty($cols)) {
+//            create table
+            foreach ($fields as $field) {
+
+                $sqlfields[] = $field->name . " text";
+            }
+
+            if (count($sqlfields) == 0)
+                throw new JException('There are no fields to generate');
+
+            $this->getDbo()->setQuery(
+                    $this->createTable(
+                            $form->name, $sqlfields
+                    )
+            )->query();
+        } else {
+//            alter table
+            foreach ($fields as $field) {
+
+                if ($cols[$field->name] === null) {
+
+                    $sqlfields[] = $field->name . " text";
+                }
+            }
+
+            if (count($sqlfields) == 0)
+                throw new JException('There are no  new fields to add');;
+
+            $this->getDbo()->setQuery(
+                    $this->alterTable($form->name, $sqlfields)
+            )->query();
+        }
+
+        return true;
+    }
+
+    private function createTable($table, $fields) {
+
+        return sprintf(
+                        'create table #__' . $table . "( id int(11), %s , primary key (id) ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;", implode(',', $fields)
+        );
+    }
+
+    private function alterTable($table, $fields) {
+
+        return sprintf(
+                        'alter table #__' . $table . " add ( %s )", implode(',', $fields)
+        );
+    }
+
+    public function dropTable($fid) {
+
+        $form = $this->getTable('BWLabForm');
+
+        $form->load($fid);
+
+        $this->getDbo()
+                ->setQuery('drop table #__' . $form->name)
+                ->query();
+        
+    }
 
 }
+

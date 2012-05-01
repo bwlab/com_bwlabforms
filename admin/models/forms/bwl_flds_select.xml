@@ -2,7 +2,7 @@
 <form name="test">
     <fieldset name="attributes-select">
         <field
-            name="value"
+            name="select_options"
             type="textarea"
             default=""
             rows="10" cols="5"

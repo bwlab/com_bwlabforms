@@ -51,7 +51,7 @@
             foreach ($this->items as $i => $field):
                 $published = JHTML::_('grid.published', $field, $i);
                 $checked = JHTML::_('grid.id', $i, $field->id);
-                $link = JRoute::_('index.php?' . BWLabFormHelper::getFieldUrl('text', $this->fid, 'edit')."&cid[]=" . $field->id);
+                $link = JRoute::_('index.php?' . BWLabFormHelper::getFieldUrl($field->type, $field->fid, 'edit')."&cid[]=" . $field->id);
                 
                 ?>
                 <tr class="<?php echo "row$k"; ?>">

@@ -13,7 +13,8 @@ defined('_JEXEC') or die('Restricted access');
 
 // Require the base controller
 require_once (JPATH_COMPONENT . DS . 'controller.php');
-
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helper' . DS . 'bwlabformhelper.php';
+JForm::addFormPath(JPATH_COMPONENT_ADMINISTRATOR . DS . 'models' . DS . 'forms');
 // Require specific controller if requested
 if ($controller = JRequest::getCmd('controller')) {
     require_once (JPATH_COMPONENT . DS . 'controllers' . DS . $controller . '.php');

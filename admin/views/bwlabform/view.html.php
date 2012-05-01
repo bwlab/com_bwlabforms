@@ -26,36 +26,44 @@ class BWLabFormsViewBWLabForm extends JView {
      * @return void
      * */
     function display($tpl = null) {
-        $bwlabforms = & $this->get('Data');
-        $isNew = ($bwlabforms->id < 1);
 
-        $doc = & JFactory::getDocument();
-        $css = '.icon-48-bwlabform {background:url(../administrator/components/com_bwlabforms/images/logo-banner.png) no-repeat;}';
-        $doc->addStyleDeclaration($css);
+        $jf_standard = JForm::getInstance('standard', 'bwl_form_layout');
+        $this->assignRef('jf_standard', $jf_standard);
 
-        $text = $isNew ? JText::_('New') : JText::_('Edit');
+        //retrieve field data 
+
+        $fid = JRequest::getVar('cid');
+
+        $form = $this->getModel('BWLabForms')
+                ->getTable('BWLabForm');
+        
+        $form->load($fid[0]);
+        
+        $isNew = ($form->id < 1);
+
+        if (!$isNew) {
+            $jf_standard->bind($form);
+            $this->assignRef('jf_standard', $jf_standard);
+        }
+
+        $this->assignRef('bwlabform', $form);
+
+
+//        $doc = & JFactory::getDocument();
+//        $css = '.icon-48-bwlabform {background:url(../administrator/components/com_bwlabforms/images/logo-banner.png) no-repeat;}';
+//        $doc->addStyleDeclaration($css);
+
         JToolBarHelper::title(JText::_('BWLabForms') . ': <small><small>[ ' . $text . ' ]</small></small>', 'bwlabform');
 
         JToolBarHelper::save();
         JToolBarHelper::apply('apply');
-        if ($isNew) {
-            JToolBarHelper::cancel();
-        } else {
-            // for existing items the button is renamed `close`
-            JToolBarHelper::cancel('cancel', 'Close');
-        }
+        JToolBarHelper::cancel();
 
         JToolBarHelper::divider();
         JToolBarHelper::custom('fields', 'edit.png', 'edit.png', 'Fields', false);
 
         $document = & JFactory::getDocument();
-        $document->addScript(JURI::root(true) . '/administrator/components/com_bwlabforms/js/mootabs.js');
 
-        $document->addStyleSheet(JURI::root(true) . '/administrator/components/com_bwlabforms/css/mootabs.css');
-        $document->addStyleSheet(JURI::root(true) . '/administrator/components/com_bwlabforms/css/bwlabforms.css');
-
-        $this->assignRef('bwlabforms', $bwlabforms);
-        
         $this->_setSubMenu();
 
         parent::display($tpl);

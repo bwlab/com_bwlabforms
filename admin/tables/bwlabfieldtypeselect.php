@@ -11,6 +11,7 @@ v<?php
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.database.table');
+require_once 'bwlabfield.php';
 
 /**
  * bwlabfield type textTable class
